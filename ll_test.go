@@ -1,6 +1,7 @@
 package LinkedList
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"strings"
@@ -23,8 +24,16 @@ func Test2816(t *testing.T) {
 		return bfr.String()
 	}
 
+	Draw2 := func(head *ListNode) string {
+		var bfr bytes.Buffer
+		for n := head; n != nil; n = n.Next {
+			fmt.Fprintf(&bfr, "%v", n)
+		}
+		return bfr.String()
+	}
+
 	type L = ListNode
 	for _, l := range []*ListNode{&L{9, &L{9, &L{Val: 9}}}, &L{1, &L{2, &L{Val: 3}}}} {
-		log.Printf("%v -> %v", Draw(l), Draw(doubleIt(l)))
+		log.Printf("%v -> %v", Draw(l), Draw2(doubleIt(l)))
 	}
 }
