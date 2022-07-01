@@ -1,6 +1,9 @@
 package LinkedList
 
-import "log"
+import (
+	"fmt"
+	"log"
+)
 
 func init() {
 	log.SetFlags(0)
@@ -9,6 +12,13 @@ func init() {
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func (o *ListNode) String() string {
+	if o.Next != nil {
+		return fmt.Sprintf("{%d *}->", o.Val)
+	}
+	return fmt.Sprintf("{%d /}", o.Val)
 }
 
 // 2816m Double a Number Represented as a Linked List
