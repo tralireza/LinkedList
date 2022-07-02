@@ -36,8 +36,7 @@ func Test2816(t *testing.T) {
 		Reverse := func(head *ListNode) *ListNode {
 			var prv, nxt *ListNode
 			for n := head; n != nil; n = nxt {
-				n.Next, nxt = prv, n.Next
-				prv = n
+				prv, n.Next, nxt = n, prv, n.Next
 			}
 			return prv
 		}
