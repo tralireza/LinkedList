@@ -12,6 +12,22 @@ import (
 
 func init() {}
 
+// 24m Swap Nodes in Pairs
+func Test24(t *testing.T) {
+	Draw := func(head *ListNode) string {
+		var bfr bytes.Buffer
+		for n := head; n != nil; n = n.Next {
+			fmt.Fprintf(&bfr, "%v", n)
+		}
+		return bfr.String()
+	}
+
+	type L = ListNode
+
+	log.Print(" -> ", Draw(swapPairs(&L{1, &L{2, &L{3, &L{Val: 4}}}})))
+	log.Print(" -> ", Draw(swapPairs(&L{Val: 1})))
+}
+
 // 2816m Double a Number Represented as a Linked List
 func Test2816(t *testing.T) {
 	Draw := func(head *ListNode) string {

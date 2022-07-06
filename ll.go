@@ -21,6 +21,17 @@ func (o *ListNode) String() string {
 	return fmt.Sprintf("{%d /}", o.Val)
 }
 
+// 24m Swap Nodes in Pairs
+func swapPairs(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	r := swapPairs(head.Next.Next)
+	head, head.Next.Next, head.Next = head.Next, head, r
+	return head
+}
+
 // 2816m Double a Number Represented as a Linked List
 func doubleIt(head *ListNode) *ListNode {
 	if head == nil {
