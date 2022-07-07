@@ -6,6 +6,7 @@ import (
 	"log"
 	"reflect"
 	"runtime"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -26,6 +27,64 @@ func Test24(t *testing.T) {
 
 	log.Print(" -> ", Draw(swapPairs(&L{1, &L{2, &L{3, &L{Val: 4}}}})))
 	log.Print(" -> ", Draw(swapPairs(&L{Val: 1})))
+}
+
+// 138m Copy List with Random Pointer
+func Test138(t *testing.T) {
+	type Node struct {
+		Val    int
+		Next   *Node
+		Random *Node
+	}
+
+	copyRandomList := func(head *Node) *Node {
+		Mem := map[*Node]*Node{}
+
+		var cpyhead, prv *Node
+		for n := head; n != nil; n = n.Next {
+			cpy := &Node{Val: n.Val * 10}
+			Mem[n] = cpy
+
+			if cpyhead == nil {
+				cpyhead = cpy
+			} else {
+				prv.Next = cpy
+			}
+			prv = cpy
+		}
+
+		cpy := cpyhead
+		for n := head; n != nil; n = n.Next {
+			if n.Random != nil {
+				cpy.Random = Mem[n.Random]
+			}
+			cpy = cpy.Next
+		}
+
+		return cpyhead
+	}
+
+	Draw := func(head *Node) {
+		for n := head; n != nil; n = n.Next {
+			x := "*}->"
+			if n.Next == nil {
+				x = "/}"
+			}
+			r := "/"
+			if n.Random != nil {
+				r = "[" + strconv.Itoa(n.Random.Val) + "]"
+			}
+			fmt.Printf("{%d %s %s", n.Val, r, x)
+		}
+		fmt.Print("\n")
+	}
+
+	type N = Node
+	n1, n2, n3, n4, n5 := &N{Val: 1}, &N{Val: 2}, &N{Val: 3}, &N{Val: 4}, &N{Val: 5}
+	n1.Next, n2.Next, n3.Next, n4.Next = n2, n3, n4, n5
+	n1.Random, n3.Random, n5.Random = n3, n1, n2
+
+	Draw(copyRandomList(&N{0, n1, n3}))
 }
 
 // 2816m Double a Number Represented as a Linked List
