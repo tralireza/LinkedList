@@ -89,18 +89,33 @@ func Test138(t *testing.T) {
 
 // 142m Linked List Cycle II
 func Test142(t *testing.T) {
+	WithMap := func(head *ListNode) *ListNode {
+		M := map[*ListNode]struct{}{}
+		for n := head; n != nil; n = n.Next {
+			if _, ok := M[n]; ok {
+				return n
+			}
+			M[n] = struct{}{}
+		}
+		return nil
+	}
+
 	type L = ListNode
 
-	l4 := &L{Val: -4}
-	l := &L{3, &L{2, &L{1, &L{0, l4}}}}
-	l4.Next = l
-	log.Print(" ?= ", detectCycle(l))
+	for _, f := range []func(*ListNode) *ListNode{detectCycle, WithMap} {
+		log.Print("==")
 
-	l4.Next = l.Next
-	log.Print(" ?= ", detectCycle(l))
+		l4 := &L{Val: -4}
+		l := &L{3, &L{2, &L{1, &L{0, l4}}}}
+		l4.Next = l
+		log.Print(" ?= ", f(l))
 
-	log.Print(" ?= ", detectCycle(&L{Val: 1}))
-	log.Print(" ?= ", detectCycle(&L{1, &L{Val: 2}}))
+		l4.Next = l.Next
+		log.Print(" ?= ", f(l))
+
+		log.Print(" ?= ", f(&L{Val: 1}))
+		log.Print(" ?= ", f(&L{1, &L{Val: 2}}))
+	}
 }
 
 // 2816m Double a Number Represented as a Linked List
