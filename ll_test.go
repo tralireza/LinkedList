@@ -92,7 +92,7 @@ func Test142(t *testing.T) {
 	type L = ListNode
 
 	l4 := &L{Val: -4}
-	l := &L{3, &L{2, &L{0, l4}}}
+	l := &L{3, &L{2, &L{1, &L{0, l4}}}}
 	l4.Next = l
 	log.Print(" ?= ", detectCycle(l))
 

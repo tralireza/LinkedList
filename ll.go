@@ -41,7 +41,7 @@ func detectCycle(head *ListNode) *ListNode {
 		p2 = p2.Next.Next
 
 		if p == p2 {
-			log.Print(" -> LOOPING")
+			log.Print(" -> LOOPING :: ", p)
 			link := head
 			for n := p.Next; ; n = n.Next {
 				if n == link {
