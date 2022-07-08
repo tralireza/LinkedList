@@ -87,6 +87,22 @@ func Test138(t *testing.T) {
 	Draw(copyRandomList(&N{0, n1, n3}))
 }
 
+// 142m Linked List Cycle II
+func Test142(t *testing.T) {
+	type L = ListNode
+
+	l4 := &L{Val: -4}
+	l := &L{3, &L{2, &L{0, l4}}}
+	l4.Next = l
+	log.Print(" ?= ", detectCycle(l))
+
+	l4.Next = l.Next
+	log.Print(" ?= ", detectCycle(l))
+
+	log.Print(" ?= ", detectCycle(&L{Val: 1}))
+	log.Print(" ?= ", detectCycle(&L{1, &L{Val: 2}}))
+}
+
 // 2816m Double a Number Represented as a Linked List
 func Test2816(t *testing.T) {
 	Draw := func(head *ListNode) string {
