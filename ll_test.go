@@ -129,7 +129,7 @@ func Test146(t *testing.T) {
 		log.Printf("%p -> %[1]v", n)
 	}
 
-	for _, n := range []int{1, 2, 3, 3, 1, 2, 4} {
+	for _, n := range []int{1, 2, 3, 3, 1, 2, 4, 5, 3} {
 		if lru.Get(n) == -1 {
 			log.Printf("%d -> -1", n)
 		}
