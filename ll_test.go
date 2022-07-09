@@ -137,6 +137,26 @@ func Test146(t *testing.T) {
 	}
 }
 
+// 148m Sort List
+func Test148(t *testing.T) {
+	Draw := func(head *ListNode) string {
+		var bfr bytes.Buffer
+		for n := head; n != nil; n = n.Next {
+			if n.Next != nil {
+				fmt.Fprintf(&bfr, "{%d *}->", n.Val)
+			} else {
+				fmt.Fprintf(&bfr, "{%d /}", n.Val)
+			}
+		}
+		return bfr.String()
+	}
+
+	type L = ListNode
+	for _, l := range []*L{&L{4, &L{2, &L{1, &L{Val: 3}}}}, &L{-1, &L{5, &L{3, &L{4, &L{Val: 0}}}}}, &L{3, &L{Val: 1}}} {
+		log.Print(Draw(l), "  ->  ", Draw(sortList(l)))
+	}
+}
+
 // 2816m Double a Number Represented as a Linked List
 func Test2816(t *testing.T) {
 	Draw := func(head *ListNode) string {

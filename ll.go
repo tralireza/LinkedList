@@ -160,6 +160,27 @@ func (lru *LRUCache) Put(key, value int) {
 	lru.Size++
 }
 
+// 148m Sort List
+func sortList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	tSort := sortList(head.Next)
+
+	if head.Val <= tSort.Val {
+		head.Next = tSort
+		return head
+	}
+
+	prv := head
+	for n := tSort; n != nil && head.Val > n.Val; n = n.Next {
+		prv = n
+	}
+	prv.Next, head.Next = head, prv.Next
+	return tSort
+}
+
 // 2816m Double a Number Represented as a Linked List
 func doubleIt(head *ListNode) *ListNode {
 	if head == nil {
