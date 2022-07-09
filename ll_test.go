@@ -118,6 +118,25 @@ func Test142(t *testing.T) {
 	}
 }
 
+// 146m LRU Cache
+func Test146(t *testing.T) {
+	lru := NewLRUCache(3)
+	for _, n := range []int{1, 2, 3, 4, 3, 1, 5, 1} {
+		lru.Put(n, n)
+		lru.Draw()
+	}
+	for _, n := range lru.kMap {
+		log.Printf("%p -> %[1]v", n)
+	}
+
+	for _, n := range []int{1, 2, 3, 3, 1, 2, 4} {
+		if lru.Get(n) == -1 {
+			log.Printf("%d -> -1", n)
+		}
+		lru.Draw()
+	}
+}
+
 // 2816m Double a Number Represented as a Linked List
 func Test2816(t *testing.T) {
 	Draw := func(head *ListNode) string {
