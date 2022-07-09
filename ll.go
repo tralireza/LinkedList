@@ -105,14 +105,14 @@ func (lru *LRUCache) Get(key int) int {
 	if n, ok := lru.kMap[key]; ok {
 		switch n {
 		case lru.Head:
-			lru.Head, lru.Tail = lru.Head.Next, lru.Tail.Next
+			lru.Head, lru.Tail = lru.Head.Next, lru.Tail.Next // rotate: 1 shift to next: <n> moves to tail
 
 		case lru.Tail:
 
 		default:
-			n.Prev.Next, n.Next.Prev = n.Next, n.Prev
-			n.Next, n.Prev = lru.Head, lru.Tail
-			n.Prev.Next, n.Next.Prev = n, n
+			n.Prev.Next, n.Next.Prev = n.Next, n.Prev // splice out
+			n.Next, n.Prev = lru.Head, lru.Tail       // move to Tail
+			n.Prev.Next, n.Next.Prev = n, n           // connect back in
 			lru.Tail = n
 		}
 		return n.Val
@@ -134,7 +134,7 @@ func (lru *LRUCache) Put(key, value int) {
 		lru.Head, lru.Tail, n.Next, n.Prev = n, n, n, n
 
 	case lru.Cap:
-		delete(lru.kMap, lru.Head.Key)
+		delete(lru.kMap, lru.Head.Key) // Head is evicted
 
 		lru.Size--
 		if lru.Size == 0 {
@@ -142,6 +142,7 @@ func (lru *LRUCache) Put(key, value int) {
 			return
 		}
 
+		// Head is gone, wire up the new Head in
 		lru.Head = lru.Head.Next
 		lru.Head.Prev = lru.Tail
 		lru.Tail.Next = lru.Head
