@@ -151,9 +151,57 @@ func Test148(t *testing.T) {
 		return bfr.String()
 	}
 
+	MergeSort := func(head *ListNode) *ListNode {
+		N := 0
+		for n := head; n != nil; n = n.Next {
+			N++
+		}
+
+		var Merge func(l, r *ListNode) *ListNode
+		Merge = func(l, r *ListNode) *ListNode {
+			if l == nil {
+				return r
+			}
+			if r == nil {
+				return l
+			}
+
+			if l.Val < r.Val {
+				l.Next = Merge(l.Next, r)
+				return l
+			}
+			r.Next = Merge(l, r.Next)
+			return r
+		}
+
+		var Sort func(*ListNode, int) *ListNode
+		Sort = func(n *ListNode, length int) *ListNode {
+			if length == 0 {
+				return nil
+			}
+			if length == 1 {
+				n.Next = nil
+				return n
+			}
+
+			rN := n
+			for range length / 2 {
+				rN = rN.Next
+			}
+			l := Sort(n, length/2)
+			r := Sort(rN, length-length/2)
+			return Merge(l, r)
+		}
+
+		return Sort(head, N)
+	}
+
 	type L = ListNode
-	for _, l := range []*L{&L{4, &L{2, &L{1, &L{Val: 3}}}}, &L{-1, &L{5, &L{3, &L{4, &L{Val: 0}}}}}, &L{3, &L{Val: 1}}} {
-		log.Print(Draw(l), "  ->  ", Draw(sortList(l)))
+	for _, f := range []func(*L) *L{sortList, MergeSort} {
+		log.Print("==", runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name())
+		for _, l := range []*L{&L{4, &L{2, &L{1, &L{Val: 3}}}}, &L{-1, &L{5, &L{3, &L{4, &L{Val: 0}}}}}, &L{3, &L{Val: 1}}} {
+			log.Print(Draw(l), "  ->  ", Draw(f(l)))
+		}
 	}
 }
 
