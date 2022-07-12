@@ -152,48 +152,47 @@ func Test148(t *testing.T) {
 	}
 
 	MergeSort := func(head *ListNode) *ListNode {
-		N := 0
-		for n := head; n != nil; n = n.Next {
-			N++
+		Merge := func(l, r *ListNode) *ListNode {
+			s := &ListNode{} // Head Sentinel
+
+			n := s
+			for l != nil && r != nil {
+				if l.Val <= r.Val {
+					n.Next, l = l, l.Next
+				} else {
+					n.Next, r = r, r.Next
+				}
+				n = n.Next
+			}
+
+			if l != nil {
+				n.Next = l
+			}
+			if r != nil {
+				n.Next = r
+			}
+
+			return s.Next
 		}
 
-		var Merge func(l, r *ListNode) *ListNode
-		Merge = func(l, r *ListNode) *ListNode {
-			if l == nil {
-				return r
-			}
-			if r == nil {
-				return l
-			}
-
-			if l.Val < r.Val {
-				l.Next = Merge(l.Next, r)
-				return l
-			}
-			r.Next = Merge(l, r.Next)
-			return r
-		}
-
-		var Sort func(*ListNode, int) *ListNode
-		Sort = func(n *ListNode, length int) *ListNode {
-			if length == 0 {
-				return nil
-			}
-			if length == 1 {
-				n.Next = nil
+		var Sort func(*ListNode) *ListNode
+		Sort = func(n *ListNode) *ListNode {
+			if n == nil || n.Next == nil {
 				return n
 			}
 
-			rN := n
-			for range length / 2 {
-				rN = rN.Next
+			var prv *ListNode
+			rN, f := n, n
+			for f != nil && f.Next != nil {
+				prv = rN
+				rN, f = rN.Next, f.Next.Next
 			}
-			l := Sort(n, length/2)
-			r := Sort(rN, length-length/2)
-			return Merge(l, r)
+			prv.Next = nil
+
+			return Merge(Sort(n), Sort(rN))
 		}
 
-		return Sort(head, N)
+		return Sort(head)
 	}
 
 	type L = ListNode
