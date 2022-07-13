@@ -26,7 +26,10 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 	var lSum func(l1, l2 *ListNode, carry int) *ListNode
 	lSum = func(l1, l2 *ListNode, carry int) *ListNode {
 		if l1 == nil && l2 == nil {
-			return &ListNode{Val: carry}
+			if carry > 0 {
+				return &ListNode{Val: carry}
+			}
+			return nil
 		}
 
 		if l1 == nil {
