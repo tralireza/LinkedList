@@ -24,8 +24,13 @@ func Test2(t *testing.T) {
 	}
 
 	type L = ListNode
-	a, b := &L{9, &L{9, &L{9, &L{9, &L{9, &L{9, &L{Val: 9}}}}}}}, &L{9, &L{9, &L{9, &L{Val: 9}}}}
-	log.Printf("%v  |+|  %v  ==  %v", Draw(a), Draw(b), Draw(addTwoNumbers(a, b)))
+	for _, l := range [][]*L{
+		[]*L{&L{9, &L{9, &L{9, &L{9, &L{9, &L{9, &L{Val: 9}}}}}}}, &L{9, &L{9, &L{9, &L{Val: 9}}}}},
+		[]*L{&L{2, &L{4, &L{Val: 3}}}, &L{5, &L{6, &L{Val: 4}}}},
+		[]*L{&L{Val: 9}, &L{1, &L{Val: 9}}},
+	} {
+		log.Printf("%v  |+|  %v  ==  %v", Draw(l[0]), Draw(l[1]), Draw(addTwoNumbers(l[0], l[1])))
+	}
 }
 
 // 24m Swap Nodes in Pairs
