@@ -21,6 +21,31 @@ func (o *ListNode) String() string {
 	return fmt.Sprintf("{%d /}", o.Val)
 }
 
+// 2m Add Two Numbers
+func addTwoNumbers(l1, l2 *ListNode) *ListNode {
+	var lSum func(l1, l2 *ListNode, carry int) *ListNode
+	lSum = func(l1, l2 *ListNode, carry int) *ListNode {
+		if l1 == nil && l2 == nil {
+			return &ListNode{Val: carry}
+		}
+
+		if l1 == nil {
+			return lSum(&ListNode{Val: carry}, l2, 0)
+		}
+		if l2 == nil {
+			return lSum(&ListNode{Val: carry}, l1, 0)
+		}
+
+		n := &ListNode{Val: l1.Val + l2.Val + carry}
+		carry = n.Val / 10
+		n.Val %= 10
+		n.Next = lSum(l1.Next, l2.Next, carry)
+		return n
+	}
+
+	return lSum(l1, l2, 0)
+}
+
 // 24m Swap Nodes in Pairs
 func swapPairs(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {

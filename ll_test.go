@@ -13,6 +13,21 @@ import (
 
 func init() {}
 
+// 2m Add Two Numbers
+func Test2(t *testing.T) {
+	Draw := func(head *ListNode) string {
+		var bfr strings.Builder
+		for n := head; n != nil; n = n.Next {
+			bfr.WriteString(n.String())
+		}
+		return bfr.String()
+	}
+
+	type L = ListNode
+	a, b := &L{9, &L{9, &L{9, &L{9, &L{9, &L{9, &L{Val: 9}}}}}}}, &L{9, &L{9, &L{9, &L{Val: 9}}}}
+	log.Printf("%v  |+|  %v  ==  %v", Draw(a), Draw(b), Draw(addTwoNumbers(a, b)))
+}
+
 // 24m Swap Nodes in Pairs
 func Test24(t *testing.T) {
 	Draw := func(head *ListNode) string {
